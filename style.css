@@ -1,0 +1,520 @@
+/* ── Reset & Base ─────────────────────────────── */
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+:root {
+    /* Bảng màu Nhôm Phay/Titanium Cơ khí */
+    --bg: #d9e0e7;
+    --bg2: #c6d0d9;
+    --bg3: #b0bcc6;
+    --disp-bg: #a3b8a8;
+    --disp-b: #8a9f8f;
+    --text: #2c3e50;
+    --text-dim: #4a5c6d;
+    --text-dark: #1a252f;
+    --accent: #111a15;
+    --accent2: #e74c3c;
+    --card: #ecf0f1;
+    --card-b: #bdc3c7;
+
+    --font-main: 'Rajdhani', sans-serif;
+    --font-mono: 'Share Tech Mono', monospace;
+    --font-head: 'Orbitron', sans-serif;
+}
+
+html,
+body {
+    width: 100%;
+    height: 100%;
+    background: #b0bcc6;
+    font-family: var(--font-main);
+    color: var(--text);
+    overflow: hidden;
+    -webkit-tap-highlight-color: transparent;
+    user-select: none;
+}
+
+/* ── Layout ───────────────────────────────────── */
+#app {
+    width: 100%;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    max-width: 480px;
+    margin: 0 auto;
+    position: relative;
+    overflow: hidden;
+    background-color: var(--bg);
+    background-image: linear-gradient(135deg, #e8edf2 0%, #c6d0d9 100%);
+    box-shadow: inset 0 0 20px rgba(0, 0, 0, 0.1), 0 0 0 2px #7f8c8d, 0 10px 40px rgba(0, 0, 0, 0.3);
+}
+
+#app::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    z-index: 100;
+    background: repeating-linear-gradient(90deg, transparent, transparent 1px, rgba(255, 255, 255, 0.2) 1px, rgba(255, 255, 255, 0.2) 2px);
+    pointer-events: none;
+    mix-blend-mode: overlay;
+}
+
+.view {
+    display: none;
+    flex-direction: column;
+    flex: 1;
+    overflow: hidden;
+}
+
+.view.active {
+    display: flex;
+}
+
+/* ── Header ───────────────────────────────────── */
+.hdr {
+    display: flex;
+    align-items: center;
+    padding: 12px;
+    gap: 8px;
+    background: linear-gradient(180deg, #dce4eb 0%, #c4cfd8 100%);
+    border-bottom: 2px solid #8c9ba6;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+    position: relative;
+    flex-shrink: 0;
+    z-index: 10;
+}
+
+.rivet {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: radial-gradient(circle at 35% 35%, #ffffff, #8c9ba6 50%, #4a5c6d);
+    border: 1px solid #3a4a5a;
+    box-shadow: 1px 1px 2px rgba(255, 255, 255, 0.8), inset -1px -1px 2px rgba(0, 0, 0, 0.4);
+    flex-shrink: 0;
+}
+
+.hdr-title {
+    font-family: var(--font-head);
+    font-size: 16px;
+    font-weight: 700;
+    letter-spacing: 2px;
+    color: #2c3e50;
+    text-shadow: 1px 1px 0 rgba(255, 255, 255, 0.6);
+    flex: 1;
+}
+
+.hdr-btn {
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: #4a5c6d;
+    font-size: 20px;
+    padding: 4px 8px;
+    font-family: var(--font-main);
+}
+
+.hdr-btn:hover {
+    color: #2980b9;
+}
+
+/* ── Calculator Display ───────────────────────── */
+#calc-display {
+    background: var(--disp-bg);
+    border: none;
+    border-radius: 4px;
+    margin: 16px 14px 10px;
+    padding: 18px 20px;
+    flex-shrink: 0;
+    min-height: 120px;
+    position: relative;
+    overflow: hidden;
+    box-shadow:
+        inset 0 4px 12px rgba(0, 0, 0, 0.4),
+        inset 0 1px 3px rgba(0, 0, 0, 0.5),
+        0 2px 0 rgba(255, 255, 255, 0.8),
+        0 0 0 4px #aeb6bf,
+        0 0 0 8px #d9e0e7;
+}
+
+#disp-prev {
+    font-family: var(--font-mono);
+    font-size: 14px;
+    color: rgba(17, 26, 21, 0.6);
+    text-align: right;
+    min-height: 20px;
+    white-space: nowrap;
+}
+
+#disp-expr {
+    font-family: var(--font-mono);
+    font-size: 18px;
+    color: rgba(17, 26, 21, 0.8);
+    text-align: right;
+    min-height: 24px;
+    white-space: nowrap;
+    margin: 4px 0;
+}
+
+#disp-main {
+    font-family: var(--font-mono);
+    font-size: 50px;
+    font-weight: 600;
+    color: var(--accent);
+    text-align: right;
+    white-space: nowrap;
+    line-height: 1.1;
+    letter-spacing: 1px;
+    text-shadow: 1px 1px 0px rgba(255, 255, 255, 0.1);
+}
+
+#disp-main.small {
+    font-size: 32px;
+}
+
+#disp-main.xsmall {
+    font-size: 24px;
+}
+
+.mode-bar {
+    display: flex;
+    gap: 8px;
+    margin-top: 10px;
+}
+
+.mode-tag {
+    font-family: var(--font-head);
+    font-size: 10px;
+    letter-spacing: 1px;
+    padding: 3px 8px;
+    border-radius: 2px;
+    background: transparent;
+    border: 1px solid rgba(17, 26, 21, 0.3);
+    color: rgba(17, 26, 21, 0.5);
+}
+
+.mode-tag.on {
+    border-color: var(--accent);
+    color: var(--accent);
+    background: rgba(17, 26, 21, 0.05);
+    font-weight: bold;
+}
+
+/* ── Button Grid (Static Layout) ──────────────── */
+#btn-grid {
+    flex: 1;
+    padding: 10px 8px 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+    justify-content: space-evenly;
+    overflow: hidden;
+}
+
+.btn-row {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex: 1;
+}
+
+/* ── Mechanic Button (Nút bấm nổi) ────────────── */
+.mbtn {
+    border: none;
+    cursor: pointer;
+    outline: none;
+    position: relative;
+    border-radius: 50%;
+    flex: 1;
+    max-width: 70px;
+    aspect-ratio: 1;
+    margin: 4px;
+    font-family: var(--font-main);
+    font-weight: 700;
+    letter-spacing: .5px;
+    overflow: hidden;
+    border: 1px solid #9ba4b5;
+    transition: transform .05s, box-shadow .05s;
+    box-shadow:
+        0 6px 10px rgba(0, 0, 0, 0.25),
+        0 2px 4px rgba(0, 0, 0, 0.15),
+        inset 0 2px 1px rgba(255, 255, 255, 0.8),
+        inset 0 -2px 2px rgba(0, 0, 0, 0.1);
+}
+
+.mbtn:active {
+    transform: translateY(4px);
+    box-shadow:
+        0 1px 2px rgba(0, 0, 0, 0.2),
+        inset 0 4px 8px rgba(0, 0, 0, 0.2),
+        inset 0 -1px 1px rgba(255, 255, 255, 0.4);
+}
+
+.mbtn::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 50%;
+    background: linear-gradient(180deg, rgba(255, 255, 255, 0.5) 0%, rgba(255, 255, 255, 0) 100%);
+    border-radius: 50% 50% 0 0;
+    pointer-events: none;
+    z-index: 2;
+}
+
+.mbtn::after {
+    content: '';
+    position: absolute;
+    top: 49%;
+    left: 12%;
+    right: 12%;
+    height: 1.5px;
+    background: rgba(0, 0, 0, 0.15);
+    box-shadow: 0 1px 0 rgba(255, 255, 255, 0.5);
+    pointer-events: none;
+    z-index: 2;
+}
+
+.mbtn span {
+    position: relative;
+    z-index: 3;
+    pointer-events: none;
+}
+
+/* --- PHÂN LOẠI MÀU NÚT (ĐÃ NÂNG CẤP ĐỘ TƯƠNG PHẢN & KÍCH THƯỚC CHỮ) --- */
+
+/* Phím Số (Nền sáng, Chữ đen đậm) */
+.btn-n {
+    background: linear-gradient(180deg, #ffffff, #d8dee3);
+    color: #000000;
+    font-size: 24px;
+}
+
+/* Phím Chức Năng sin/cos (Nền xám đậm, Chữ trắng viền đen) */
+.btn-f {
+    background: linear-gradient(180deg, #6b7885, #444d56);
+    color: #ffffff;
+    font-size: 16px;
+    border-color: #2c3e50;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.8);
+}
+
+/* Phím Toán Học + - * / (Nền xanh đậm, Chữ trắng viền đen) */
+.btn-o {
+    background: linear-gradient(180deg, #2980b9, #154360);
+    color: #ffffff;
+    font-size: 28px;
+    border-color: #0d2b3e;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.8);
+}
+
+/* Phím Bằng = (Nền đỏ đậm, Chữ trắng viền đen) */
+.btn-e {
+    background: linear-gradient(180deg, #e74c3c, #922b21);
+    color: #ffffff;
+    font-size: 28px;
+    border-color: #641e16;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.8);
+    box-shadow: 0 6px 10px rgba(192, 57, 43, 0.3), 0 2px 4px rgba(0, 0, 0, 0.2), inset 0 2px 1px rgba(255, 255, 255, 0.4);
+}
+
+/* Phím AC/DEL (Nền cam đậm, Chữ trắng viền đen) */
+.btn-c {
+    background: linear-gradient(180deg, #e67e22, #a04000);
+    color: #ffffff;
+    font-size: 18px;
+    border-color: #6e2c00;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.8);
+}
+
+/* Phím Alt/Shift (Nền xám chì, Chữ trắng viền đen) */
+.btn-a {
+    background: linear-gradient(180deg, #95a5a6, #616a6b);
+    color: #ffffff;
+    font-size: 16px;
+    border-color: #424949;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.8);
+}
+
+/* Hiệu ứng khi nhấn */
+.btn-act {
+    background: linear-gradient(180deg, #3498db, #2980b9) !important;
+    color: #fff !important;
+    box-shadow: inset 0 3px 6px rgba(0, 0, 0, 0.4) !important;
+    transform: translateY(2px);
+}
+
+/* ── Dropdown & Panels ────────────────────────── */
+#menu-overlay {
+    position: absolute;
+    inset: 0;
+    z-index: 200;
+    background: rgba(0, 0, 0, .4);
+    display: none;
+}
+
+#menu-overlay.open {
+    display: block;
+}
+
+#menu-box {
+    position: absolute;
+    top: 56px;
+    right: 14px;
+    background: linear-gradient(180deg, #f8f9fa, #e9ecef);
+    border: 1px solid #ced4da;
+    border-radius: 6px;
+    min-width: 180px;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+}
+
+.menu-item {
+    padding: 16px 20px;
+    color: #2c3e50;
+    cursor: pointer;
+    font-size: 15px;
+    font-weight: 600;
+    border-bottom: 1px solid #dee2e6;
+}
+
+.menu-item:last-child {
+    border-bottom: none;
+}
+
+.menu-item:hover {
+    background: rgba(41, 128, 185, 0.1);
+    color: #2980b9;
+}
+
+/* Scrollbar */
+::-webkit-scrollbar {
+    width: 4px;
+}
+
+::-webkit-scrollbar-track {
+    background: rgba(0, 0, 0, 0.05);
+}
+
+::-webkit-scrollbar-thumb {
+    background: #adb5bd;
+    border-radius: 2px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: #6c757d;
+}
+
+/* ── Animations ───────────────────────────────── */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(6px);
+    }
+
+    to {
+        opacity: 1;
+        transform: none;
+    }
+}
+
+.view.active {
+    animation: fadeIn .15s ease-out;
+}
+
+@keyframes press {
+
+    0%,
+    100% {
+        transform: scale(1);
+    }
+
+    50% {
+        transform: scale(0.92);
+    }
+}
+
+.mbtn:active {
+    animation: press .1s ease;
+}
+
+@keyframes numPop {
+    0% {
+        transform: scale(1.05);
+        color: #2980b9;
+    }
+
+    100% {
+        transform: scale(1);
+    }
+}
+
+.pop {
+    animation: numPop .15s ease;
+}
+
+/* ── Responsive ───────────────────────────────── */
+@media (min-height: 700px) {
+    #disp-main {
+        font-size: 56px;
+    }
+
+    .mbtn {
+        margin: 5px;
+    }
+}
+
+@media (max-height: 600px) {
+    #disp-main {
+        font-size: 40px;
+    }
+
+    #calc-display {
+        min-height: 90px;
+        padding: 12px;
+        margin: 8px 10px;
+    }
+
+    .mbtn {
+        margin: 2px;
+    }
+}
+
+@media (min-width: 480px) {
+    body {
+        background: #f0f3f5;
+    }
+
+    #app {
+        box-shadow: 0 0 40px rgba(0, 0, 0, 0.15), 0 0 0 1px #bdc3c7;
+    }
+}
+
+/* Các thành phần thuộc History & Converter */
+.hist-item,
+.panel,
+.conv-card,
+.settings-card {
+    background: linear-gradient(180deg, #ffffff, #f1f4f6);
+    border: 1px solid #ced4da;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+    color: #2c3e50;
+}
+
+.conv-input {
+    background: #ffffff;
+    border: 1px solid #adb5bd;
+    color: #2c3e50;
+    font-weight: 700;
+    box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+.conv-input:focus {
+    border-color: #2980b9;
+    box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.05), 0 0 0 2px rgba(41, 128, 185, 0.2);
+}
