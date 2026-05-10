@@ -2,146 +2,164 @@
 <html lang="vi">
 
 <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-    <title>Classic Calculator</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+    <title>fx‑580VX · Mechanic Edition</title>
     <link
-        href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Rajdhani:wght@400;500;600;700&family=Orbitron:wght@400;700&display=swap"
-        rel="stylesheet" />
+        href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700&family=Rajdhani:wght@600;700&family=Share+Tech+Mono&display=swap"
+        rel="stylesheet">
     <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
     <div id="app">
-
-        <!-- ═══════════════════════════════════════════ CALCULATOR -->
-        <div id="calc-view" class="view active">
-
-            <!-- Header -->
-            <div class="hdr">
-                <div class="rivet"></div>
-                <span class="hdr-title">MECH·CALC</span>
-                <div style="flex:1"></div>
-                <button class="hdr-btn" onclick="showView('conv-home')" title="Converter">⊞</button>
-                <button class="hdr-btn" onclick="toggleMenu()" title="Menu">⋮</button>
-                <div class="rivet"></div>
-            </div>
-
-            <!-- Display -->
-            <div id="calc-display">
-                <div id="disp-prev"></div>
-                <div id="disp-expr"></div>
-                <div id="disp-main">0</div>
-                <div class="mode-bar">
-                    <div class="mode-tag" id="tag-deg">DEG</div>
-                    <div class="mode-tag" id="tag-rad">RAD</div>
-                    <div class="mode-tag" id="tag-inv">INV</div>
+        <div id="calc">
+            <div class="sc" id="sc-tl"></div>
+            <div class="sc" id="sc-tr"></div>
+            <div class="sc" id="sc-bl"></div>
+            <div class="sc" id="sc-br"></div>
+            <div class="sc" id="sc-ml"></div>
+            <div class="sc" id="sc-mr"></div>
+            <div id="crack"></div>
+            <div id="brand">
+                <div>
+                    <div id="bm">fx‑580VX</div>
+                    <div id="bs">MECHANIC WEB EDITION</div>
                 </div>
+                <div id="br">NATURAL-V.P.A.M.</div>
             </div>
-
-            <!-- Button Grid -->
-            <div id="btn-grid"></div>
-
-            <!-- Menu Dropdown -->
-            <div id="menu-overlay" onclick="closeMenu()">
-                <div id="menu-box" onclick="event.stopPropagation()">
-                    <div class="menu-item" onclick="closeMenu(); showView('history')">Lịch sử</div>
-                    <div class="menu-item" onclick="closeMenu(); showView('settings')">Cài đặt</div>
-                </div>
-            </div>
-        </div>
-
-        <!-- ═══════════════════════════════════════════ CONVERTER HOME -->
-        <div id="conv-home" class="view">
-            <div class="hdr">
-                <button class="hdr-back" onclick="showView('calc-view')">←</button>
-                <div class="rivet"></div>
-                <span class="hdr-title">ĐƠN VỊ</span>
-                <div class="rivet"></div>
-            </div>
-            <div id="conv-grid"></div>
-        </div>
-
-        <!-- ═══════════════════════════════════════════ UNIT CONVERTER -->
-        <div id="conv-view" class="view">
-            <div class="hdr">
-                <button class="hdr-back" onclick="showView('conv-home')">←</button>
-                <div class="rivet"></div>
-                <span class="hdr-title" id="conv-title">ĐƠN VỊ</span>
-                <div class="rivet"></div>
-            </div>
-            <div class="inner">
-                <div class="panel">
-                    <div class="panel-label">Từ</div>
-                    <div class="chips" id="from-chips"></div>
-                    <input class="conv-input" id="conv-input" placeholder="Nhập giá trị..." type="text"
-                        oninput="doConvert()" autocomplete="off" />
-                </div>
-                <button class="swap-btn" onclick="swapUnits()">⇅</button>
-                <div class="panel">
-                    <div class="panel-label">Đến</div>
-                    <div class="chips" id="to-chips"></div>
-                    <div class="result-box">
-                        <span class="result-val" id="conv-result">—</span>
-                        <span class="result-unit" id="conv-result-unit"></span>
+            <div id="lcd-bezel">
+                <div id="lcd">
+                    <div id="inds">
+                        <span class="ind" id="i-S">S</span>
+                        <span class="ind" id="i-A">A</span>
+                        <span class="ind" id="i-HYP">HYP</span>
+                        <span class="ind" id="i-M">M</span>
+                        <div class="ind-sep"></div>
+                        <span class="ind" id="i-CMPLX">CMPLX</span>
+                        <span class="ind" id="i-BASE">BASE</span>
+                        <span class="ind" id="i-MAT">MAT</span>
+                        <span class="ind" id="i-STAT">STAT</span>
+                        <span class="ind" id="i-EQN">EQN</span>
+                        <div style="flex:1"></div>
+                        <span class="ind" id="i-DEG">DEG</span>
+                        <span class="ind" id="i-RAD">RAD</span>
+                        <span class="ind" id="i-GRA">GRA</span>
+                    </div>
+                    <div id="expr-wrap">
+                        <span id="hist-ind"></span>
+                        <div id="expr-disp"></div>
+                    </div>
+                    <div id="res-wrap">
+                        <div id="res-alt"></div>
+                        <div id="res-main"></div>
                     </div>
                 </div>
-                <div style="height:10px"></div>
+            </div>
+            <div id="kb"></div>
+            <div id="bot">
+                <div class="sc" style="position:relative;width:10px;height:10px;flex-shrink:0"></div>
+                <div id="bot-txt">MODEL MX‑580 · STEEL SERIES · REV 2</div>
+                <div class="sc" style="position:relative;width:10px;height:10px;flex-shrink:0"></div>
             </div>
         </div>
+    </div>
 
-        <!-- ═══════════════════════════════════════════ HISTORY -->
-        <div id="history" class="view">
-            <div class="hdr">
-                <button class="hdr-back" onclick="showView('calc-view')">←</button>
-                <div class="rivet"></div>
-                <span class="hdr-title">LỊCH SỬ</span>
-                <div style="flex:1"></div>
-                <button class="hdr-btn" style="color:#ff7070;font-size:13px;font-weight:700;"
-                    onclick="clearHistory()">XÓA TẤT CẢ</button>
-            </div>
-            <div id="hist-list"></div>
+    <!-- MODE SELECT -->
+    <div class="ov" id="ov-mode">
+        <div class="ovp">
+            <div class="ov-h">SELECT MODE<button class="ov-x" onclick="OV.close('ov-mode')">✕</button></div>
+            <div class="mg" id="mode-grid"></div>
         </div>
+    </div>
 
-        <!-- ═══════════════════════════════════════════ SETTINGS -->
-        <div id="settings" class="view">
-            <div class="hdr">
-                <button class="hdr-back" onclick="showView('calc-view')">←</button>
-                <div class="rivet"></div>
-                <span class="hdr-title">CÀI ĐẶT</span>
+    <!-- CONSTANTS -->
+    <div class="ov" id="ov-const">
+        <div class="ovp">
+            <div class="ov-h">PHYSICAL CONSTANTS<button class="ov-x" onclick="OV.close('ov-const')">✕</button></div>
+            <input type="text" id="cs-q" placeholder="Search…" oninput="filterConsts(this.value)">
+            <div id="cs-list"></div>
+        </div>
+    </div>
+
+    <!-- MATRIX -->
+    <div class="ov" id="ov-mat">
+        <div class="ovp">
+            <div class="ov-h">MATRIX CALCULATOR<button class="ov-x" onclick="OV.close('ov-mat')">✕</button></div>
+            <div class="ms">
+                <span style="color:var(--dim);font-size:12px">Size:</span>
+                <div class="db on" onclick="setMatDim(2,2,this)">2×2</div>
+                <div class="db" onclick="setMatDim(2,3,this)">2×3</div>
+                <div class="db" onclick="setMatDim(3,2,this)">3×2</div>
+                <div class="db" onclick="setMatDim(3,3,this)">3×3</div>
             </div>
-            <div id="settings-body">
-                <div class="settings-section">Giao diện & Phản hồi</div>
-                <div class="settings-card">
-                    <div class="settings-row">
-                        <span class="settings-row-label">Rung khi nhấn</span>
-                        <label class="toggle"><input type="checkbox" checked id="s-vibrate" />
-                            <div class="toggle-track"></div>
-                            <div class="toggle-thumb"></div>
-                        </label>
-                    </div>
-                    <div class="settings-row">
-                        <span class="settings-row-label">Phân cách hàng nghìn</span>
-                        <label class="toggle"><input type="checkbox" id="s-thousands" onchange="renderCalcBtns()" />
-                            <div class="toggle-track"></div>
-                            <div class="toggle-thumb"></div>
-                        </label>
-                    </div>
+            <div style="font-size:11px;color:var(--dim);margin-bottom:6px">Matrix A:</div>
+            <div id="mg-a"></div>
+            <div style="font-size:11px;color:var(--dim);margin:10px 0 6px">Matrix B (for A+B, A−B, A×B):</div>
+            <div id="mg-b"></div>
+            <div class="mo">
+                <div class="mb" onclick="matOp('det')">det(A)</div>
+                <div class="mb" onclick="matOp('inv')">A⁻¹</div>
+                <div class="mb" onclick="matOp('trn')">Aᵀ</div>
+                <div class="mb" onclick="matOp('add')">A＋B</div>
+                <div class="mb" onclick="matOp('sub')">A－B</div>
+                <div class="mb" onclick="matOp('mul')">A×B</div>
+            </div>
+            <div id="mat-res"></div>
+        </div>
+    </div>
+
+    <!-- EQUATION SOLVER -->
+    <div class="ov" id="ov-eqn">
+        <div class="ovp">
+            <div class="ov-h">EQUATION SOLVER<button class="ov-x" onclick="OV.close('ov-eqn')">✕</button></div>
+            <div class="et">
+                <div class="db on" onclick="setEqnType('quad',this)">Quadratic</div>
+                <div class="db" onclick="setEqnType('cubic',this)">Cubic</div>
+                <div class="db" onclick="setEqnType('sys2',this)">2-var system</div>
+                <div class="db" onclick="setEqnType('sys3',this)">3-var system</div>
+            </div>
+            <div id="eqn-form"></div>
+            <button class="solv" onclick="solveEqn()">▶ SOLVE</button>
+            <div id="eq-res">Nhấn SOLVE để giải…</div>
+        </div>
+    </div>
+
+    <!-- STATISTICS -->
+    <div class="ov" id="ov-stat">
+        <div class="ovp">
+            <div class="ov-h">STATISTICS<button class="ov-x" onclick="OV.close('ov-stat')">✕</button></div>
+            <div style="display:flex;gap:8px;margin-bottom:10px">
+                <div class="db on" onclick="setStatType('1var',this)">1-Variable</div>
+                <div class="db" onclick="setStatType('2var',this)">2-Variable</div>
+            </div>
+            <div id="st-hint" style="font-size:11px;color:var(--dim);margin-bottom:6px">Enter x values:</div>
+            <div class="sd" id="st-data"></div>
+            <div style="display:flex;gap:8px;margin:8px 0;align-items:center">
+                <div class="mb" onclick="addStatRow()">+ Row</div>
+                <div class="mb" onclick="clrStat()">Clear</div>
+                <button class="solv" style="padding:7px 16px;font-size:12px;margin:0" onclick="calcStat()">CALC</button>
+            </div>
+            <div id="st-res"></div>
+        </div>
+    </div>
+
+    <!-- TABLE -->
+    <div class="ov" id="ov-tbl">
+        <div class="ovp">
+            <div class="ov-h">TABLE f(x)<button class="ov-x" onclick="OV.close('ov-tbl')">✕</button></div>
+            <div class="tf">
+                <div class="trow"><span class="tlb">f(x) =</span><input class="tin" id="t-fx" value="x^2"></div>
+                <div class="trow"><span class="tlb">Start</span><input class="tin" id="t-s" type="number" value="-5">
                 </div>
-                <div class="settings-section">Về ứng dụng</div>
-                <div class="settings-card">
-                    <div class="settings-row"><span class="settings-row-label">Tên</span><span
-                            class="settings-row-val">Mechanic Calc</span></div>
-                    <div class="settings-row"><span class="settings-row-label">Phiên bản</span><span
-                            class="settings-row-val">1.0.0</span></div>
-                    <div class="settings-row"><span class="settings-row-label">Chủ đề</span><span
-                            class="settings-row-val">Steel Grey</span></div>
-                </div>
+                <div class="trow"><span class="tlb">End</span><input class="tin" id="t-e" type="number" value="5"></div>
+                <div class="trow"><span class="tlb">Step</span><input class="tin" id="t-d" type="number" value="1"
+                        step="any"></div>
             </div>
+            <button class="solv" onclick="genTable()">GENERATE</button>
+            <div id="tbl-out"></div>
         </div>
-
-    </div><!-- #app -->
+    </div>
 
     <script src="script.js"></script>
 </body>
